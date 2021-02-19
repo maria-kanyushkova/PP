@@ -2,31 +2,27 @@
 #include <string>
 #include <iostream>
 
+using namespace std;
+
 DWORD WINAPI ThreadProc(CONST LPVOID lpParam)
 {
-	std::cout << "Stream number " << *((int*)lpParam) << " doing his job" << std::endl;
+	cout << (to_string((int)lpParam) + "\n");
 	ExitThread(0); // функция устанавливает код завершения потока в 0
 }
 
-
-int main(int argc)
+int main(int argc, CHAR* argv[])
 {
-	int* param = new int(argc);
-	for (int i = 0; i < argc; i++) {
-		param[i] = i;
-	}
-	// создание двух потоков
-	HANDLE* handles = new HANDLE[argc];
-	for (int i = 0; i < argc; i++) {
-		handles[i] = CreateThread(NULL, i, &ThreadProc, &param[i], CREATE_SUSPENDED, NULL);
+	int param = atoi(argv[1]);
+
+	HANDLE* handles = new HANDLE[param];
+	for (int i = 0; i < param; i++) {
+		handles[i] = CreateThread(NULL, 0, &ThreadProc, LPVOID(i), CREATE_SUSPENDED, NULL);
 	}
 
-	// запуск двух потоков
-	for (int i = 0; i < argc; i++) {
+	for (int i = 0; i < param; i++) {
 		ResumeThread(handles[i]);
 	}
 
-	// ожидание окончания работы двух потоков
-	WaitForMultipleObjects(argc, handles, true, INFINITE);
+	WaitForMultipleObjects(param, handles, true, INFINITE);
 	return 0;
 }
