@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 unsigned int startTime;
 
 struct Params
@@ -15,7 +17,7 @@ struct Params
 	uint32_t endHeight;
 	uint32_t startWidth;
 	uint32_t endWidth;
-	std::ofstream* out;
+	ofstream* out;
 };
 
 void Blur(int radius, Params* params)
@@ -36,7 +38,7 @@ void Blur(int radius, Params* params)
 					auto y = min(static_cast<int>(params->endHeight) - 1, max(0, iy));
 
 					long long dsq = ((ix - j) * (ix - j)) + ((iy - i) * (iy - i));
-					double wght = std::exp(-dsq / (2.0 * radius * radius)) / (3.14 * 2.0 * radius * radius);
+					double wght = exp(-dsq / (2.0 * radius * radius)) / (3.14 * 2.0 * radius * radius);
 
 					rgb32* pixel = params->in->GetPixel(x, y);
 
@@ -48,11 +50,11 @@ void Blur(int radius, Params* params)
 			}
 
 			rgb32* pixel = params->in->GetPixel(j, i);
-			pixel->r = std::round(r / count);
-			pixel->g = std::round(g / count);
-			pixel->b = std::round(b / count);
+			pixel->r = round(r / count);
+			pixel->g = round(g / count);
+			pixel->b = round(b / count);
 
-			*params->out << (std::to_string(clock() - startTime) + "\n");
+			*params->out << (to_string(clock() - startTime) + "\n");
 		}
 	}
 }
@@ -64,17 +66,17 @@ DWORD WINAPI ThreadProc(CONST LPVOID lpParam)
 	ExitThread(0); // функция устанавливает код завершения потока в 0
 }
 
-void ThreadsRunner(Bitmap* in, int threadsCount, int coreCount, const std::vector<int>& priorities)
+void ThreadsRunner(Bitmap* in, int threadsCount, int coreCount, const vector<int>& priorities)
 {
 	int partHeight = in->GetHeight() / threadsCount;
 	int heightRemaining = in->GetHeight() % threadsCount;
 
 	Params* arrayParams = new Params[threadsCount];
-	std::ofstream* files = new std::ofstream[threadsCount];
-	std::cout << std::to_string(in->GetHeight() * in->GetWidth()) << std::endl;
+	ofstream* files = new ofstream[threadsCount];
+	cout << to_string(in->GetHeight() * in->GetWidth()) << endl;
 	for (int i = 0; i < threadsCount; i++)
 	{
-		files[i] = std::ofstream("out" + std::to_string(i) + ".txt");
+		files[i] = ofstream("out" + to_string(i) + ".txt");
 
 		Params params;
 		params.in = in;
@@ -115,7 +117,7 @@ int main(int argc, const char** argv)
 
 	Bitmap bmp{ "a.bmp" };
 
-	std::vector<int> priorities;
+	vector<int> priorities;
 	priorities.push_back(2); // массив приоритета
 	priorities.push_back(1); // массив приоритета
 	priorities.push_back(0); // массив приоритета
@@ -126,7 +128,7 @@ int main(int argc, const char** argv)
 
 	unsigned int end = clock();
 	unsigned int duration = end - start;
-	std::cout << duration << std::endl;
+	cout << duration << endl;
 
 	return 0;
 }
