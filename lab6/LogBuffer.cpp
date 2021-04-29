@@ -1,6 +1,6 @@
 #include "LogBuffer.h"
 
-constexpr int MAX_BUFFER_COUNT = 50;
+constexpr int MAX_BUFFER_COUNT = 1000;
 
 LogBuffer::LogBuffer()
 {
