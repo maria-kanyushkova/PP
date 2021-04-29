@@ -14,6 +14,7 @@ int main(int argc, const char** argv)
 	for (int i = 0; i < numberOfThreads; i++)
 	{
 		ITask* task = new ThreadNumberPrinter(i);
+		Sleep(500); //or random sleep
 		worker->ExecuteTask(task);
 	}
 
