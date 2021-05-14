@@ -15,7 +15,7 @@ int main(int argc, const char** argv)
 	{
 		ITask* task = new ThreadNumberPrinter(i);
 		Sleep(500); //or random sleep
-		worker->ExecuteTask(task);
+		cout << worker->ExecuteTask(task) << endl;
 	}
 
 	delete worker;
