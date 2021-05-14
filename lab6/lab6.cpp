@@ -123,7 +123,7 @@ int main(int argc, const char** argv)
 	priorities.push_back(1); // массив приоритета
 	priorities.push_back(1); // массив приоритета
 
-	ThreadsRunner(&bmp, 3, 3, priorities); // количество потоков, количество ядер
+	ThreadsRunner(&bmp, 1, 1, priorities); // количество потоков, количество ядер
 
 	bmp.Save("img1.bmp");
 
