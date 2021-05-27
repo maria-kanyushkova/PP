@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <vector>
+#include "time.h"
 #include "ThreadsPool.h"
 
 using namespace std;
@@ -99,12 +100,12 @@ int main(int argc, const char** argv)
 {
 	unsigned int start = clock();
 
-	Bitmap bmp{ "b.bmp" };
+	Bitmap bmp{ "or/b.bmp" };
 
-	auto blurParams = GetBlurParams(&bmp, 1); // количество блоков
-	RunThreads(blurParams, StringToExecuteMode("pool"), 3); //newThread или pool | количество потоков в пуле (0)
+	auto blurParams = GetBlurParams(&bmp, 5); // количество блоков
+	RunThreads(blurParams, StringToExecuteMode("newThread"), 0); //newThread или pool | количество потоков в пуле (0)
 
-	bmp.Save("img.bmp");
+	bmp.Save("bl/img.bmp");
 
 	unsigned int end = clock();
 	unsigned int duration = end - start;
